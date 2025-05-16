@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco-Challenge Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+    }
+    h1 {
+      color: #4caf50;
+    }
+    .stats {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    #popup-modal {
+      /* Remove max-height, let it grow as needed */
+      /* Optionally, set a max-height if you want, e.g., max-height: 90vh; */
+      height: auto;
+      min-height: 300px; /* or whatever minimum you want */
+      /* You can also set top/bottom/left/right as needed */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Eco-Challenge</h1>
+    <div class="stats">
+      <p><strong>Carbon Emissions:</strong> <span id="emissions">100</span> tons</p>
+      <p><strong>Budget:</strong> $<span id="budget">1000</span></p>
+    </div>
+    <div class="buttons">
+      <button id="plantTrees">Plant Trees (-10 tons, -$50)</button>
+      <button id="renewableEnergy">Switch to Renewable Energy (-20 tons, -$200)</button>
+      <button id="factoryUpgrade">Upgrade Factory (-15 tons, -$150)</button>
+    </div>
+    <p id="message" style="color: red; font-size: 14px; margin-top: 10px;"></p>
+  </div>
+
+  <script>
+    // Initial stats
+    let carbonEmissions = 100;
+    let budget = 1000;
+
+    // Get DOM elements
+    const emissionsDisplay = document.getElementById("emissions");
+    const budgetDisplay = document.getElementById("budget");
+    const messageDisplay = document.getElementById("message");
+
+    // Update stats display
+    function updateStats() {
+      emissionsDisplay.textContent = carbonEmissions;
+      budgetDisplay.textContent = budget;
+    }
+
+    // Show a message to the user
+    function showMessage(message, isError = false) {
+      messageDisplay.textContent = message;
+      messageDisplay.style.color = isError ? "red" : "green";
+      setTimeout(() => (messageDisplay.textContent = ""), 2000);
+    }
+
+    // Action: Plant Trees
+    document.getElementById("plantTrees").addEventListener("click", () => {
+      if (budget >= 50) {
+        carbonEmissions -= 10;
+        budget -= 50;
+        updateStats();
+        showMessage("You planted trees and reduced emissions!");
+      } else {
+        showMessage("Not enough budget!", true);
+      }
+    });
+
+    // Action: Switch to Renewable Energy
+    document.getElementById("renewableEnergy").addEventListener("click", () => {
+      if (budget >= 200) {
+        carbonEmissions -= 20;
+        budget -= 200;
+        updateStats();
+        showMessage("You switched to renewable energy!");
+      } else {
+        showMessage("Not enough budget!", true);
+      }
+    });
+
+    // Action: Upgrade Factory
+    document.getElementById("factoryUpgrade").addEventListener("click", () => {
+      if (budget >= 150) {
+        carbonEmissions -= 15;
+        budget -= 150;
+        updateStats();
+        showMessage("You upgraded a factory!");
+      } else {
+        showMessage("Not enough budget!", true);
+      }
+    });
+
+    // Initial render
+    updateStats();
+  </script>
+</body>
+</html>
